@@ -15,13 +15,13 @@ class Weapon() : Item() {
             1 -> {attackPower = Random.nextInt(1, 3)
                 this.name = "Fists"}
 
-            2 -> {attackPower = Random.nextInt(4, 6)
+            2 -> {attackPower = Random.nextInt(3, 5)
                 this.name = "Dagger"}
 
-            3 -> {attackPower = Random.nextInt(7, 9)
+            3 -> {attackPower = Random.nextInt(5, 8)
                 this.name = "Sword"}
 
-            4 -> {attackPower = Random.nextInt(10, 12)
+            4 -> {attackPower = Random.nextInt(8, 11)
                 this.name = "Greatsword"}
 
             else -> throw Exception("Error initialising attack power of Weapon.")

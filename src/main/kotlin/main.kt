@@ -38,11 +38,21 @@ fun main() {
             }
 
             "fight" -> {
-                val monster = Monster()
-                println(monster.name)
+
+                if (player1.playerWeapon == null) {
+                    println("You need a weapon before you can fight. Find one by looting.")
+                } else {
+                    val monster = Monster() // create a monster
+                    player1.fight(monster) // enter fight sequence
+                }
+            }
+
+            else -> {
+                println("Please enter a valid input.")
             }
 
         }
     }
+
 
 }
