@@ -1,4 +1,5 @@
-import java.security.KeyStore
+import java.text.DecimalFormat
+import kotlin.math.floor
 import kotlin.random.Random
 
 class Player(override val name: String) : Entity() {
@@ -53,13 +54,20 @@ class Player(override val name: String) : Entity() {
 
     }
 
+    fun updateLevel() {
+
+        // for every 100 experience, player level increases
+        this.playerLevel = floor((this.playerExperience / 100)).toInt()
+
+    }
+
     fun fight(monster: Monster) {
 
         println("You are fighting a ${monster.name} (HP: ${monster.monsterHP}, AP: ${monster.monsterAttackPower})")
 
         while (this.playerHP > 0 && monster.monsterHP > 0) {
 
-            println("FIGHTING: What will you do? (attack, defend, item, stats, run")
+            println("FIGHTING: What will you do? (attack, defend, item, stats, run)")
             val getFightInput = readLine().toString().toLowerCase()
 
             when (getFightInput) {
@@ -71,26 +79,49 @@ class Player(override val name: String) : Entity() {
 
                     // monster attacks player
                     this.playerHP -= monster.monsterAttack(this)
-                    print("attack system")
+
                 }
 
                 "defend" -> {
-                    print("defend system")
+
+                    // TODO better defence mechanics, maybe take into account the player's armour
+                    // 1 in 4 chance to block an attack from the monster
+                    val attemptBlock = Random.nextInt(0, 4)
+
+                    if (attemptBlock == 1) {
+                        println("Successfully blocked the ${monster.name}'s attack!")
+                    } else {
+                        println("Failed to block ${monster.name}'s attack!")
+                        this.playerHP -= monster.monsterAttack(this)
+                    }
+
                 }
 
-                "item" -> {
-                    print("item use")
-                }
-
-                // TODO view stats without skipping turn
-//                "stats" -> {
-//                    this.printPlayerDetails()
+                // TODO use consumable items mid-fight
+//                "item" -> {
+//                    print("item use")
 //                }
 
+                "stats" -> {
+                    this.printPlayerDetails()
+                }
+
                 "run" -> {
-                    // TODO running mechanics
-                    val runningRandomNum = Random.nextInt(0, 2) // 50-50 chance of running away
-                    print("run")
+                    // TODO better running mechanics
+
+                    // 50-50 chance of running away
+                    val attemptRun = Random.nextInt(0, 2)
+
+                    if (attemptRun == 0) {
+
+                        println("Successfully ran away from the ${monster.name}!")
+                        break
+
+                    } else {
+                        this.playerHP -= monster.monsterAttack(this)
+                        println("Failed to run away!")
+                    }
+
                 }
 
                 else -> {
@@ -112,7 +143,15 @@ class Player(override val name: String) : Entity() {
 
         } else {
 
+            val monsterEXP = monster.calculateMonsterOnDeathExperience()
+            this.playerExperience += monsterEXP
+            this.updateLevel()
+
+
+
             println("You have defeated the monster.")
+            println("==AWARDED==")
+            println("EXP: ${String.format("%.2f", monsterEXP)}")
 
         }
 

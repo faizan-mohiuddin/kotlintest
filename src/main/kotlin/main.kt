@@ -15,43 +15,49 @@ fun main() {
 
     while (true) {
 
-        // play the game
+        // main menu
 
-        println("What will you do?")
-        val getInput = readLine().toString()
+        while (player1.playerHP > 0) {
 
-        when (getInput) {
+            // play the game
 
-            "exit" -> {
-                println("EXITING GAME")
-                break
-            }
+            println("What will you do?")
+            val getInput = readLine().toString()
 
-            "stats" -> {
-                player1.printPlayerDetails()
-            }
+            when (getInput) {
 
-            "loot" -> {
-
-                player1.loot()
-
-            }
-
-            "fight" -> {
-
-                if (player1.playerWeapon == null) {
-                    println("You need a weapon before you can fight. Find one by looting.")
-                } else {
-                    val monster = Monster() // create a monster
-                    player1.fight(monster) // enter fight sequence
+                "exit" -> {
+                    println("EXITING GAME")
+                    break
                 }
-            }
 
-            else -> {
-                println("Please enter a valid input.")
-            }
+                "stats" -> {
+                    player1.printPlayerDetails()
+                }
 
+                "loot" -> {
+
+                    player1.loot()
+
+                }
+
+                "fight" -> {
+
+                    if (player1.playerWeapon == null) {
+                        println("You need a weapon before you can fight. Find one by looting.")
+                    } else {
+                        val monster = Monster() // create a monster
+                        player1.fight(monster) // enter fight sequence
+                    }
+                }
+
+                else -> {
+                    println("Please enter a valid input.")
+                }
+
+            }
         }
+
     }
 
 
