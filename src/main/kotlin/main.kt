@@ -1,6 +1,4 @@
-import java.io.IOException
-import java.lang.Exception
-import kotlin.text.toIntOrNull
+import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 
 // TODO dont use global variable to keep track of number of items
 var numberOfEntities = 0
@@ -85,7 +83,17 @@ fun main() {
 
                 // TODO move leaderboard to main menu once implemented
                 "leaderboard" -> {
-                    println("show leaderboard")
+
+                    csvReader().open("src/main/resources/leaderboard.csv") {
+                        readAllAsSequence().forEach { row ->
+                            println(row.toString()
+                                .replace(",", "")
+                                .replace("[", "")
+                                .replace("]", "")
+                                .trim())
+                        }
+                    }
+
                 }
 
                 else -> {
