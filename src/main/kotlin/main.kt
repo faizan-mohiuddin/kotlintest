@@ -1,4 +1,5 @@
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 
 // TODO dont use global variable to keep track of number of items
 var numberOfEntities = 0
@@ -117,6 +118,8 @@ fun main() {
 
                 "y", "yes" -> {
                     println("Saving to file.")
+                    val rows = listOf(listOf(player1.name, " " + player1.playerExperience.toInt()))
+                    csvWriter().writeAll(rows, "src/main/resources/leaderboard.csv", append = true)
                     hasDecided = true
                 }
                 "n", "no" -> {
