@@ -12,12 +12,25 @@ class Player(override val name: String) : Entity() {
     // PLAYER EQUIPMENT
     var playerWeapon: Weapon? = null
     var playerArmour: Armour? = null
+    var playerInventory = mutableListOf<Consumable?>() // TODO change this to store more than just consumables
 
     fun printPlayerDetails() {
         println("PLAYER DETAILS: ")
         println("HP: ${this.playerHP}")
-        println("Weapon: ${this.playerWeapon?.name} Armour: ${this.playerArmour}")
+        println("Weapon: ${this.playerWeapon?.name} (${this.playerWeapon?.attackPower} AP) Armour: ${this.playerArmour?.name} (${this.playerArmour?.defPower} DP) ")
         println("Level: ${this.playerLevel} (EXP: ${this.playerExperience})")
+    }
+
+    fun printPlayerInventory() {
+
+        var counter = 0
+
+        for (item in this.playerInventory) {
+
+            println("($counter): ${item?.name}")
+
+            counter += 1
+        }
     }
 
     fun loot() {
@@ -35,7 +48,7 @@ class Player(override val name: String) : Entity() {
 
             println("You equipped ${weapon.name} with attack power ${weapon.attackPower} (Grade: ${weapon.rarity})")
 
-            // TODO make amour an uncommon bonus when looting instead of guaranteed
+            // TODO make amour an uncommon bonus when looting instead of guaranteed - armour is OP
             val armour = Armour()
             playerArmour = armour
 
@@ -56,6 +69,7 @@ class Player(override val name: String) : Entity() {
 
     fun updateLevel() {
 
+        // TODO could be better levelling system?
         // for every 100 experience, player level increases
         this.playerLevel = floor((this.playerExperience / 100)).toInt()
 
@@ -141,13 +155,11 @@ class Player(override val name: String) : Entity() {
 
             println("The monster has won. You have died.")
 
-        } else {
+        } else if (monster.monsterHP <= 0) {
 
             val monsterEXP = monster.calculateMonsterOnDeathExperience()
             this.playerExperience += monsterEXP
             this.updateLevel()
-
-
 
             println("You have defeated the monster.")
             println("==AWARDED==")
