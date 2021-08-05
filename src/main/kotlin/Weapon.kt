@@ -1,6 +1,6 @@
 import kotlin.random.Random
 
-class Weapon() : Item() {
+class Weapon : Item() {
 
     // TODO change item rarity to not just be random but instead make sure higher rarities come up less often
     override val rarity = Random.nextInt(1, 5) // random rarity between and including 1 and 4

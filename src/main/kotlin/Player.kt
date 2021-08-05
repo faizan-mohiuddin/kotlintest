@@ -1,4 +1,3 @@
-import java.text.DecimalFormat
 import kotlin.math.floor
 import kotlin.random.Random
 
@@ -7,7 +6,7 @@ class Player(override val name: String) : Entity() {
     // PLAYER NUMBERS
     var playerHP: Float = 100F
     var playerExperience: Float = 0F
-    var playerLevel = 0
+    var playerLevel = 0 // TODO not private because player level will be used out of class eventually
 
     // PLAYER EQUIPMENT
     var playerWeapon: Weapon? = null
@@ -158,18 +157,16 @@ class Player(override val name: String) : Entity() {
         }
     }
 
-    fun playerAttack (monster: Monster): Float {
+    // TODO kept monster as a parameter once fight mechanics are impvoed
+    private fun playerAttack(monster: Monster): Float {
 
-        var playerAttackValue: Float = 0F
+        // TODO incorporate an element of randomness so that the attack value isn't always the same
 
-        // TODO incorporate an element of randomness so that the attack value isnt always the same
-        playerAttackValue = this.playerWeapon!!.attackPower.toFloat() * 3
-
-        return playerAttackValue
+        return playerWeapon!!.attackPower.toFloat() * 3
 
     }
 
-    fun updateLevel() {
+    private fun updateLevel() {
 
         // TODO could be better levelling system?
         // for every 100 experience, player level increases
@@ -184,9 +181,8 @@ class Player(override val name: String) : Entity() {
         while (this.playerHP > 0 && monster.monsterHP > 0) {
 
             println("FIGHTING: What will you do? (attack, defend, item, stats, run)")
-            val getFightInput = readLine().toString().toLowerCase()
 
-            when (getFightInput) {
+            when (readLine().toString().toLowerCase()) {
 
                 "attack" ->  {
 

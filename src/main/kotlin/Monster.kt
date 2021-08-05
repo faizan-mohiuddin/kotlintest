@@ -10,7 +10,7 @@ class Monster : Entity() {
     override val name = arrayOfMonsterNames[Random.nextInt(0, arrayOfMonsterNames.size)]
 
     var monsterAttackPower = 0
-    var monsterDefPower: Float = 1F
+    var monsterDefPower: Float = 1F // will be used eventually
     var monsterHP:Float = 0F
 
     init {
@@ -39,16 +39,15 @@ class Monster : Entity() {
 
     fun monsterAttack(player: Player): Float {
 
-        var monsterAttackValue: Float = 0F
-        // TODO incorporate an element of randomness so that the attack value isnt always the same
+        // TODO incorporate an element of randomness so that the attack value isn't always the same
 
-        if (player.playerArmour == null) {
+        val monsterAttackValue: Float = if (player.playerArmour == null) {
 
-            monsterAttackValue = (this.monsterAttackPower.toFloat() * 3) / (1F)
+            (this.monsterAttackPower.toFloat() * 3) / (1F)
 
         } else {
 
-            monsterAttackValue = (this.monsterAttackPower.toFloat() * 3) / (player.playerArmour!!.defPower)
+            (this.monsterAttackPower.toFloat() * 3) / (player.playerArmour!!.defPower)
 
         }
         return monsterAttackValue

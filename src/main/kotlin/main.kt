@@ -24,9 +24,8 @@ fun main() {
             // play the game
 
             println("What will you do? (loot, fight, inventory, item, stats, leaderboard, exit)")
-            val getInput = readLine().toString()
 
-            when (getInput) {
+            when (readLine().toString()) {
 
                 "exit" -> {
                     println("EXITING GAME")
@@ -65,24 +64,22 @@ fun main() {
                     } else {
 
                         println("What item in your inventory would you like to interact with? (ID)")
-                        val attemptUseItem = readLine().toString().toIntOrNull()
-                        when (attemptUseItem) {
+                        when (val attemptUseItem = readLine().toString().toIntOrNull()) {
                             null -> {
                                 println("Please type a valid integer.")
                             }
                             else -> {
                                 try { // replace try catch with if number is < 0 or > size of inventory
-                                    val getItem = player1.playerInventory[attemptUseItem]
-                                    when (getItem) {
+                                    when (val getItem = player1.playerInventory[attemptUseItem]) {
                                         is Consumable -> {
-                                            player1.playerUseConsumable(getItem as Consumable)
+                                            player1.playerUseConsumable(getItem)
                                                 //player1.playerInventory[attemptUseItem]?.useConsumable(player1)
                                         }
                                         is Weapon -> {
-                                            player1.equipWeapon(getItem as Weapon)
+                                            player1.equipWeapon(getItem)
                                         }
                                         is Armour -> {
-                                            player1.equipArmour(getItem as Armour)
+                                            player1.equipArmour(getItem)
                                         }
                                         else -> {
                                             throw Exception("Error interacting with item.")
@@ -96,7 +93,7 @@ fun main() {
                     }
                 }
 
-                // TODO move leaderboard to main menu once implemented, leaderboard isnt sorted
+                // TODO move leaderboard to main menu once implemented, leaderboard isn't sorted
                 "leaderboard" -> {
 
                     csvReader().open("src/main/resources/leaderboard.csv") {
@@ -126,9 +123,7 @@ fun main() {
 
         while (!hasDecided) {
 
-            val attemptSave = readLine().toString().toLowerCase()
-
-            when (attemptSave) {
+            when (readLine().toString().toLowerCase()) {
 
                 "y", "yes" -> {
                     println("Saving to file.")

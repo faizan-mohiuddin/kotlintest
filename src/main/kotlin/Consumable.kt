@@ -10,18 +10,15 @@ open class Consumable: Item() {
     fun randomConsumable(): Consumable {
 
 
-        val randomNum = (0..listOfConsumables.size).random()
-        var theConsumable: Consumable
-
-        when (randomNum) {
+        return when ((0..listOfConsumables.size).random()) {
             0 -> {
-                return listOfConsumables[0]
+                listOfConsumables[0]
             }
             1 -> {
-                return listOfConsumables[1]
+                listOfConsumables[1]
             }
             else -> {
-                return HealthPotion()
+                HealthPotion()
             }
         }
 
@@ -40,7 +37,7 @@ class HealthPotion: Potion() {
 
     override val typeOfConsumable = "Health Potion"
 
-    var healingPower = 0
+    private var healingPower = 0
 
     init {
 
@@ -91,7 +88,7 @@ class ExpPotion: Potion() {
 
     override val typeOfConsumable = "EXP Potion"
 
-    var experiencePower = 0
+    private var experiencePower = 0
 
     init {
 
@@ -137,7 +134,3 @@ class ExpPotion: Potion() {
     }
 }
 
-class Gift: Consumable() {
-
-    override val typeOfConsumable = "Gift"
-}
