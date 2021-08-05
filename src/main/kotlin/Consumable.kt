@@ -1,11 +1,47 @@
 import kotlin.random.Random
 
+val listOfConsumables  = mutableListOf<Consumable>(HealthPotion(), ExpPotion())
+
 open class Consumable: Item() {
 
     override val rarity = Random.nextInt(1, 5)
     open val typeOfConsumable = ""
 
     open fun useConsumable(player: Player){
+        // gets overridden by sub-class function - better way to do this?
+    }
+
+    open fun removeItemFromInventory(player: Player) {
+
+        for (item in player.playerInventory) {
+
+            if (item?.itemID == this.itemID) {
+
+                player.playerInventory.remove(item)
+                break
+
+            }
+        }
+
+    }
+
+    fun randomConsumable(): Consumable {
+
+
+        val randomNum = (0..listOfConsumables.size).random()
+        var theConsumable: Consumable
+
+        when (randomNum) {
+            0 -> {
+                return listOfConsumables[0]
+            }
+            1 -> {
+                return listOfConsumables[1]
+            }
+            else -> {
+                return HealthPotion()
+            }
+        }
 
     }
 
@@ -62,17 +98,61 @@ class HealthPotion: Potion() {
 
         println("You have used a ${this.name}. ${this.healingPower} HP restored.")
 
-        for (item in player.playerInventory) {
+        this.removeItemFromInventory(player)
 
-            if (item?.itemID == this.itemID) {
-
-                player.playerInventory.remove(item)
-                break
-            }
-        }
     }
 
 
+}
+
+class ExpPotion: Potion() {
+
+    override val typeOfConsumable = "EXP Potion"
+
+    var experiencePower = 0
+
+    init {
+
+        when (this.rarity) {
+
+            1 -> {
+                this.name = "Common EXP Potion"
+                this.experiencePower = 100
+            }
+
+            2 -> {
+                this.name = "Rare EXP Potion"
+                this.experiencePower = 200
+            }
+
+            3 -> {
+                this.name = "Epic EXP Potion"
+                this.experiencePower = 400
+            }
+
+            4 -> {
+                this.name = "Legendary EXP Potion"
+                this.experiencePower = 1000
+            }
+
+            else -> {
+                throw Exception("Error creating Healing Potion.")
+            }
+
+        }
+
+    }
+
+    // use and remove the exp potion from inventory
+    override fun useConsumable(player: Player) {
+
+        player.playerExperience += this.experiencePower
+
+        println("You have used a ${this.name}. ${this.experiencePower} EXP gained.")
+
+        this.removeItemFromInventory(player)
+
+    }
 }
 
 class Gift: Consumable() {

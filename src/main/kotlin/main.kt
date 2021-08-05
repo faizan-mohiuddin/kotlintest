@@ -23,7 +23,7 @@ fun main() {
 
             // play the game
 
-            println("What will you do? (loot, fight, stats, exit)")
+            println("What will you do? (loot, fight, inventory, item, stats, leaderboard, exit)")
             val getInput = readLine().toString()
 
             when (getInput) {
@@ -54,8 +54,7 @@ fun main() {
                 }
 
                 "inventory" -> {
-                    val randomHealthPotion = HealthPotion()
-                    player1.playerInventory.add(randomHealthPotion)
+                    //player1.playerInventory.add(Consumable().randomConsumable()) // adds a random USABLE consumable to inventory
                     player1.printPlayerInventory()
                 }
 
@@ -82,7 +81,7 @@ fun main() {
                     }
                 }
 
-                // TODO move leaderboard to main menu once implemented
+                // TODO move leaderboard to main menu once implemented, leaderboard isnt sorted
                 "leaderboard" -> {
 
                     csvReader().open("src/main/resources/leaderboard.csv") {

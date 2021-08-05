@@ -161,9 +161,14 @@ class Player(override val name: String) : Entity() {
             this.playerExperience += monsterEXP
             this.updateLevel()
 
+            val consumableReward = Consumable().randomConsumable()
+            this.playerInventory.add(consumableReward)
+
             println("You have defeated the monster.")
             println("==AWARDED==")
             println("EXP: ${String.format("%.2f", monsterEXP)}")
+            // TODO more rewards, randomise them to be more rare
+            println("1x ${consumableReward.typeOfConsumable}: ${consumableReward.name}")
 
         }
 
