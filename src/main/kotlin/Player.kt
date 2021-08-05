@@ -12,13 +12,56 @@ class Player(override val name: String) : Entity() {
     // PLAYER EQUIPMENT
     var playerWeapon: Weapon? = null
     var playerArmour: Armour? = null
-    var playerInventory = mutableListOf<Consumable?>() // TODO change this to store more than just consumables
+    var playerInventory = mutableListOf<Item?>() // TODO change this to store more than just consumables
+
 
     fun printPlayerDetails() {
         println("PLAYER DETAILS: ")
         println("HP: ${this.playerHP}")
         println("Weapon: ${this.playerWeapon?.name} (${this.playerWeapon?.attackPower} AP) Armour: ${this.playerArmour?.name} (${this.playerArmour?.defPower} DP) ")
         println("Level: ${this.playerLevel} (EXP: ${this.playerExperience})")
+    }
+
+    fun equipWeapon(weapon: Weapon) {
+
+        if (this.playerWeapon == null) {
+
+            for (item in this.playerInventory) {
+
+                if (item?.itemID == weapon.itemID) {
+
+                    this.playerWeapon = item as Weapon?
+                    println("You have equipped ${item.name}.")
+                    break
+
+                }
+            }
+
+        } else {
+
+            var counter = 0
+
+            for (item in this.playerInventory) {
+
+                if (item?.itemID == weapon.itemID) {
+
+                    val copyPlayerWeapon: Weapon = this.playerWeapon!! // copyPlayerWeapon is a dupe of the player's current weapon (can't be null!!)
+                    this.playerWeapon = this.playerInventory[counter] as Weapon
+                    println("You have swapped ${copyPlayerWeapon.name} for ${this.playerInventory[counter]?.name}.")
+                    this.playerInventory[counter] = copyPlayerWeapon
+                    break
+
+                }
+
+                counter += 1
+
+            }
+
+        }
+    }
+
+    fun equipArmour(armour: Armour) {
+        // ALSO GOTTA CHANGE HOW CONCSUMABLES ARE USED (swap to Player class)
     }
 
     fun printPlayerInventory() {
@@ -44,15 +87,36 @@ class Player(override val name: String) : Entity() {
         } else {
 
             val weapon = Weapon()
-            playerWeapon = weapon
-
-            println("You equipped ${weapon.name} with attack power ${weapon.attackPower} (Grade: ${weapon.rarity})")
-
-            // TODO make amour an uncommon bonus when looting instead of guaranteed - armour is OP
             val armour = Armour()
-            playerArmour = armour
 
-            println("You equipped ${armour.name} with defense power ${armour.defPower} (Grade: ${armour.rarity})")
+            if (this.playerWeapon == null) {
+
+                this.playerWeapon = weapon
+
+                println("You equipped ${weapon.name} with attack power ${weapon.attackPower} (Grade: ${weapon.rarity})")
+
+            } else {
+
+                this.playerInventory.add(weapon)
+
+                println("You added ${weapon.name} with attack power ${weapon.attackPower} (Grade: ${weapon.rarity}) to your inventory.")
+
+            }
+
+            if (this.playerArmour == null) {
+
+                // TODO make amour an uncommon bonus when looting instead of guaranteed - armour is OP
+                this.playerArmour = armour
+
+                println("You equipped ${armour.name} with defense power ${armour.defPower} (Grade: ${armour.rarity})")
+
+            } else {
+
+                this.playerInventory.add(armour)
+
+                println("You added ${armour.name} with defense power ${armour.defPower} (Grade: ${armour.rarity}) to your inventory.")
+
+            }
         }
     }
 

@@ -7,24 +7,6 @@ open class Consumable: Item() {
     override val rarity = Random.nextInt(1, 5)
     open val typeOfConsumable = ""
 
-    open fun useConsumable(player: Player){
-        // gets overridden by sub-class function - better way to do this?
-    }
-
-    open fun removeItemFromInventory(player: Player) {
-
-        for (item in player.playerInventory) {
-
-            if (item?.itemID == this.itemID) {
-
-                player.playerInventory.remove(item)
-                break
-
-            }
-        }
-
-    }
-
     fun randomConsumable(): Consumable {
 
 

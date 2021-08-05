@@ -64,17 +64,31 @@ fun main() {
                         println("You currently have no items in your inventory.")
                     } else {
 
-                        println("What item in your inventory would you like to use?")
+                        println("What item in your inventory would you like to interact with?")
                         val attemptUseItem = readLine().toString().toIntOrNull()
                         when (attemptUseItem) {
                             null -> {
                                 println("Please type a valid integer.")
                             }
                             else -> {
-                                try {
-                                    player1.playerInventory[attemptUseItem]?.useConsumable(player1)
-                                } catch (e: IndexOutOfBoundsException) {
-                                    println("This item does not exist in your inventory.")
+                                when (player1.playerInventory[attemptUseItem]) {
+                                    is Consumable -> {
+                                        try {
+                                            player1.playerInventory[attemptUseItem]?.useConsumable(player1)
+                                        } catch (e: IndexOutOfBoundsException) {
+                                            println("This item does not exist in your inventory.")
+                                        }
+                                    }
+                                    is Weapon -> {
+                                        try {
+                                            player1.equipWeapon(player1.playerInventory[attemptUseItem] as Weapon)
+                                        } catch (e: IndexOutOfBoundsException) {
+                                            println("This item does not exist in your inventory.")
+                                        }
+                                    }
+                                    else -> {
+                                        throw Exception("Error interacting with item.")
+                                    }
                                 }
                             }
                         }
