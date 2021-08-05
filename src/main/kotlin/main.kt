@@ -64,31 +64,32 @@ fun main() {
                         println("You currently have no items in your inventory.")
                     } else {
 
-                        println("What item in your inventory would you like to interact with?")
+                        println("What item in your inventory would you like to interact with? (ID)")
                         val attemptUseItem = readLine().toString().toIntOrNull()
                         when (attemptUseItem) {
                             null -> {
                                 println("Please type a valid integer.")
                             }
                             else -> {
-                                when (player1.playerInventory[attemptUseItem]) {
-                                    is Consumable -> {
-                                        try {
-                                            player1.playerInventory[attemptUseItem]?.useConsumable(player1)
-                                        } catch (e: IndexOutOfBoundsException) {
-                                            println("This item does not exist in your inventory.")
+                                try { // replace try catch with if number is < 0 or > size of inventory
+                                    val getItem = player1.playerInventory[attemptUseItem]
+                                    when (getItem) {
+                                        is Consumable -> {
+                                            player1.playerUseConsumable(getItem as Consumable)
+                                                //player1.playerInventory[attemptUseItem]?.useConsumable(player1)
+                                        }
+                                        is Weapon -> {
+                                            player1.equipWeapon(getItem as Weapon)
+                                        }
+                                        is Armour -> {
+                                            player1.equipArmour(getItem as Armour)
+                                        }
+                                        else -> {
+                                            throw Exception("Error interacting with item.")
                                         }
                                     }
-                                    is Weapon -> {
-                                        try {
-                                            player1.equipWeapon(player1.playerInventory[attemptUseItem] as Weapon)
-                                        } catch (e: IndexOutOfBoundsException) {
-                                            println("This item does not exist in your inventory.")
-                                        }
-                                    }
-                                    else -> {
-                                        throw Exception("Error interacting with item.")
-                                    }
+                                } catch (e: IndexOutOfBoundsException) {
+                                    println("This item does not exist in your inventory.")
                                 }
                             }
                         }

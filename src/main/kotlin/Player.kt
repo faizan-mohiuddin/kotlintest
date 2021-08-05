@@ -60,8 +60,46 @@ class Player(override val name: String) : Entity() {
         }
     }
 
+    fun playerUseConsumable(consumable: Consumable) {
+        consumable.useConsumable(this)
+    }
+
     fun equipArmour(armour: Armour) {
-        // ALSO GOTTA CHANGE HOW CONCSUMABLES ARE USED (swap to Player class)
+
+        if (this.playerArmour == null) {
+
+            for (item in this.playerInventory) {
+
+                if (item?.itemID == armour.itemID) {
+
+                    this.playerArmour = item as Armour?
+                    println("You have equipped ${item.name}.")
+                    break
+
+                }
+            }
+
+        } else {
+
+            var counter = 0
+
+            for (item in this.playerInventory) {
+
+                if (item?.itemID == armour.itemID) {
+
+                    val copyPlayerArmour: Armour = this.playerArmour!! // copyPlayerWeapon is a dupe of the player's current weapon (can't be null!!)
+                    this.playerArmour = this.playerInventory[counter] as Armour
+                    println("You have swapped ${copyPlayerArmour.name} for ${this.playerInventory[counter]?.name}.")
+                    this.playerInventory[counter] = copyPlayerArmour
+                    break
+
+                }
+
+                counter += 1
+
+            }
+
+        }
     }
 
     fun printPlayerInventory() {
