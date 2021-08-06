@@ -7,6 +7,7 @@ class Player(override val name: String) : Entity() {
     var playerHP: Float = 100F
     var playerExperience: Float = 0F
     var playerLevel = 0 // TODO not private because player level will be used out of class eventually
+    var playerGold = 0
 
     // PLAYER EQUIPMENT
     var playerWeapon: Weapon? = null
@@ -162,8 +163,17 @@ class Player(override val name: String) : Entity() {
 
         // TODO incorporate an element of randomness so that the attack value isn't always the same
 
-        return playerWeapon!!.attackPower.toFloat() * 3
+        // 1/5 chance to land a critical attack
+        return if ((0..4).random() == 4 ){
 
+            println("You landed a critical strike!")
+            playerWeapon!!.attackPower.toFloat() * 5
+
+        } else {
+
+            playerWeapon!!.attackPower.toFloat() * 3
+
+        }
     }
 
     private fun updateLevel() {
@@ -255,10 +265,14 @@ class Player(override val name: String) : Entity() {
 
         } else if (monster.monsterHP <= 0) {
 
+            // calculate gold and exp rewards for player
             val monsterEXP = monster.calculateMonsterOnDeathExperience()
+            val monsterGold = monster.calculateMonsterOnDeathGold()
+            this.playerGold += monsterGold
             this.playerExperience += monsterEXP
             this.updateLevel()
 
+            // chance of consumable reward, maybe other items later
             val consumableReward = Consumable().randomConsumable()
             this.playerInventory.add(consumableReward)
 

@@ -55,7 +55,16 @@ class Monster : Entity() {
     }
 
     fun calculateMonsterOnDeathExperience(): Float {
+
         val randomMultiplier = Random.nextFloat()
         return ((this.monsterAttackPower * 10) / randomMultiplier)
+
+    }
+
+    fun calculateMonsterOnDeathGold(): Int {
+
+        val randomMultiplier = Random.nextFloat()
+        return ((this.monsterAttackPower * 10) / randomMultiplier).toInt()
+
     }
 }

@@ -108,6 +108,13 @@ fun main() {
 
                 }
 
+                "shop" -> {
+
+                    val shopkeeper = Shopkeeper().createShopKeeper()
+
+                    shopkeeper.printShopkeeperItems()
+                }
+
                 else -> {
                     println("Please enter a valid input.")
                 }
