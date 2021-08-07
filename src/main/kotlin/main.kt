@@ -110,9 +110,10 @@ fun main() {
 
                 "shop" -> {
 
-                    val shopkeeper = Shopkeeper().createShopKeeper()
+                    val shopkeeper = Shopkeeper().randomShopkeeper()
 
-                    shopkeeper.printShopkeeperItems()
+                    shopkeeper.printShopkeeperGoods()
+
                 }
 
                 else -> {

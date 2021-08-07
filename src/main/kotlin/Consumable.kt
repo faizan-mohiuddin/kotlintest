@@ -7,19 +7,13 @@ open class Consumable: Item() {
     override val rarity = Random.nextInt(1, 5)
     open val typeOfConsumable = ""
 
+    // this is trash code
     fun randomConsumable(): Consumable {
 
 
         return when ((0..listOfConsumables.size).random()) {
-            0 -> {
-                listOfConsumables[0]
-            }
-            1 -> {
-                listOfConsumables[1]
-            }
-            else -> {
-                HealthPotion()
-            }
+            0 -> HealthPotion()
+            else -> ExpPotion()
         }
 
     }

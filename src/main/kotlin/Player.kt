@@ -124,8 +124,8 @@ class Player(override val name: String) : Entity() {
 
         } else {
 
-            val weapon = Weapon()
-            val armour = Armour()
+            val weapon = Weapon().randomWeapon()
+            val armour = Armour().randomArmour()
 
             if (this.playerWeapon == null) {
 

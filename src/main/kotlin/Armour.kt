@@ -1,32 +1,52 @@
-import kotlin.random.Random
 
-class Armour: Item() {
+val listOfArmours = mutableListOf<Armour>(Cloth(), Leather(), Chain(), Plated())
+
+open class Armour: Item() {
 
     // TODO change item rarity to not just be random but instead make sure higher rarities come up less often
-    override val rarity = Random.nextInt(1, 5) // random rarity between and including 1 and 4
-
-    var defPower = 0
+    override val rarity = 0 // random rarity between and including 1 and 4
+    open var defPower = 0
     override var name: String = ""
 
-    init {
+    fun randomArmour(): Armour {
 
-        when (rarity) {
-
-            1 -> {defPower = Random.nextInt(1, 3)
-                this.name = "Cloth armour"}
-
-            2 -> {defPower = Random.nextInt(3, 5)
-                this.name = "Leather armour"}
-
-            3 -> {defPower = Random.nextInt(5, 8)
-                this.name = "Chain armour"}
-
-            4 -> {defPower = Random.nextInt(8, 11)
-                this.name = "Plated armour"}
-
-            else -> throw Exception("Error initialising defence power of Armour.")
-
+        return when((0..listOfArmours.size).random()) {
+            0 -> Cloth()
+            1 -> Leather()
+            2 -> Chain()
+            else -> Plated()
         }
-
     }
+}
+
+class Cloth: Armour() {
+
+    override val rarity = 1
+    override var defPower = (1..3).random()
+    override var name = "Cloth Armour"
+
+}
+
+class Leather: Armour() {
+
+    override val rarity = 2
+    override var defPower = (4..6).random()
+    override var name = "Leather Armour"
+
+}
+
+class Chain: Armour() {
+
+    override val rarity = 3
+    override var defPower = (7..9).random()
+    override var name = "Chain Armour"
+
+}
+
+class Plated: Armour() {
+
+    override val rarity = 4
+    override var defPower = (10..12).random()
+    override var name = "Plated Armour"
+
 }

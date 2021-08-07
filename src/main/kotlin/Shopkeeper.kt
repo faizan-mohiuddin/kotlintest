@@ -1,49 +1,85 @@
+
+val listOfShopkeepers = mutableListOf<Shopkeeper>(WeaponShopkeeper(), ArmourShopkeeper(), ConsumableShopkeeper())
+
 open class Shopkeeper: Entity() {
 
-    override val name = "The Shopkeeper"
-    open lateinit var shopkeeperItems: List<Item>
+    override var name = "The Shopkeeper"
 
-    fun createShopKeeper(): Shopkeeper {
+    fun randomShopkeeper(): Shopkeeper {
 
-        val typeOfShopKeeper = (0..2).random()
+        return when((0..listOfWeapons.size).random()) {
+            0 -> WeaponShopkeeper()
+            1 -> ArmourShopkeeper()
+            else -> ConsumableShopkeeper()
+        }
+    }
 
-        when (typeOfShopKeeper) {
-            0 -> return ConsumableShopkeeper()
-//            1 -> return WeaponShopkeeper()
-//            2 -> return ArmourShopkeeper()
-            else -> return ConsumableShopkeeper() // this never will be reached
+    open fun printShopkeeperGoods() {
+
+    }
+
+}
+
+class WeaponShopkeeper: Shopkeeper() {
+
+    override var name = "Weapons Shopkeeper"
+    val shopkeeperItems = mutableListOf<Weapon>()
+
+    init {
+
+        for (weapon in listOfWeapons) {
+            shopkeeperItems.add(weapon)
         }
 
     }
 
-    fun printShopkeeperItems() {
+    override fun printShopkeeperGoods() {
+        for (weapon in shopkeeperItems) {
+            println(weapon.name)
+        }
+    }
 
-        for (item in shopkeeperItems) {
 
-            println("Keeper has ${item.name} .")
+}
 
+class ArmourShopkeeper: Shopkeeper() {
+
+    override var name = "Armours Shopkeeper"
+    val shopkeeperItems = mutableListOf<Armour>()
+
+    init {
+
+        for (armour in listOfArmours) {
+            shopkeeperItems.add(armour)
         }
 
+    }
+
+    override fun printShopkeeperGoods() {
+        for (armour in shopkeeperItems) {
+            println(armour.name)
+        }
     }
 
 }
 
 class ConsumableShopkeeper: Shopkeeper() {
 
-    override var shopkeeperItems = listOfConsumables as List<Item>
+    override var name = "Consumables Shopkeeper"
+    val shopkeeperItems = mutableListOf<Consumable>()
 
-}
+    init {
 
-// TODO rest of shopkeepers
+        for (consumable in listOfConsumables) {
+            shopkeeperItems.add(consumable)
+        }
 
-class WeaponShopkeeper: Shopkeeper() {
+    }
 
-    val weaponShopkeeperItems = mutableListOf<Weapon>()
-
-}
-
-class ArmourShopkeeper: Shopkeeper() {
-
-    val armourShopkeeperItems = mutableListOf<Armour>()
+    override fun printShopkeeperGoods() {
+        for (consumable in shopkeeperItems) {
+            println(consumable.name)
+        }
+    }
 
 }
