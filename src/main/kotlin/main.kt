@@ -11,7 +11,7 @@ fun main() {
     val playerNameInput = readLine().toString()
 
     val player1 = Player(playerNameInput)
-    val shopkeeper = WeaponShopkeeper() // TODO persistent general shopkeeper
+    val persistentShopkeeper = GeneralShopkeeper() // persistent shopkeeper
 
     // TODO in-game commands and game commands
     // println("COMMANDS: ")
@@ -24,7 +24,7 @@ fun main() {
 
             // play the game
 
-            println("What will you do? (loot, fight, inventory, item, stats, leaderboard, exit)")
+            println("What will you do? (loot, fight, inventory, item, shop, stats, leaderboard, exit)")
 
             when (readLine().toString()) {
 
@@ -39,7 +39,59 @@ fun main() {
 
                 "loot" -> {
 
-                    player1.loot()
+                    if ((0..12).random() != 0) {
+                        player1.loot()
+                    } else {
+
+                        val travellingShopkeeper = Shopkeeper().randomShopkeeper()
+                        println("You found a travelling ${travellingShopkeeper.name}!")
+                        println("Would you like to visit their store? (Y/N)")
+
+                        var wantsToVisit = false
+                        var hasDecided = false
+
+                        while (!hasDecided) {
+
+                            val visitShop = readLine()
+
+                            when (visitShop?.toLowerCase()) {
+                                "y", "yes" -> {
+                                    wantsToVisit = true
+                                    hasDecided = true
+                                }
+                                "n", "no" -> {
+                                    hasDecided = true
+                                }
+                                else -> {
+                                    println("Please enter a valid input")
+                                }
+                            }
+                        }
+
+                        if (wantsToVisit) {
+
+                            while (true) {
+
+                                travellingShopkeeper.printShopkeeperGoods()
+
+                                println("What itemID would you like to buy from the shopkeeper? (command 'exit' to leave)")
+                                val getItemID = readLine()
+
+                                if (getItemID == "exit") {
+                                    println("You have left the travelling shopkeeper's shop.")
+                                    break
+                                }
+
+                                if (getItemID?.toIntOrNull() == null) {
+                                    println("Please enter a valid input")
+                                } else {
+                                    travellingShopkeeper.buyItemFromShopkeeper(player1, getItemID.toInt())
+                                }
+
+                            }
+
+                        }
+                    }
 
                 }
 
@@ -111,11 +163,11 @@ fun main() {
 
                 "shop" -> {
 
-                    if (shopkeeper.hasItems()) {
+                    if (persistentShopkeeper.hasItems()) {
 
                         println("You visit the shopkeeper.")
 
-                        shopkeeper.printShopkeeperGoods()
+                        persistentShopkeeper.printShopkeeperGoods()
 
                         println("What itemID would you like to buy from the shopkeeper? (command 'exit' to leave)")
                         val getItemID = readLine()
@@ -123,7 +175,7 @@ fun main() {
                         if (getItemID?.toIntOrNull() == null) {
                             println("Please enter a valid input")
                         } else {
-                            shopkeeper.buyItemFromShopkeeper(player1, getItemID.toInt())
+                            persistentShopkeeper.buyItemFromShopkeeper(player1, getItemID.toInt())
                         }
 
                     } else {

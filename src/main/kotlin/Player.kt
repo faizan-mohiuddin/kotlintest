@@ -279,7 +279,7 @@ class Player(override val name: String) : Entity() {
 
             println("You have defeated the monster.")
             println("==AWARDED==")
-            println("EXP: ${String.format("%.2f", monsterEXP)}")
+            println("EXP: ${String.format("%.2f", monsterEXP)} GOLD: ${String.format("%.2f", monsterGold)}")
             // TODO more rewards, randomise them to be more rare
             println("1x ${consumableReward.typeOfConsumable}: ${consumableReward.name}")
 

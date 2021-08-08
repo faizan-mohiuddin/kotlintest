@@ -18,8 +18,10 @@ open class Shopkeeper: Entity() {
 
     open fun printShopkeeperGoods() {
 
+        println("${this.name}'s store")
+
         for (item in theShop) {
-            println("1x " + item.first.name + " (ID: " + item.first.itemID + ") costs " + item.second + " gold.")
+            println("(ID: " + item.first.itemID + ")  1x " + item.first.name + " costs " + item.second + " gold.")
         }
 
     }
@@ -81,20 +83,15 @@ class WeaponShopkeeper: Shopkeeper() {
 class ArmourShopkeeper: Shopkeeper() {
 
     override var name = "Armours Shopkeeper"
-    val shopkeeperItems = mutableListOf<Armour>()
 
     init {
 
         for (armour in listOfArmours) {
-            shopkeeperItems.add(armour)
+
+            this.theShop.add(Pair(armour, armour.getPrice()))
+
         }
 
-    }
-
-    override fun printShopkeeperGoods() {
-        for (armour in shopkeeperItems) {
-            println(armour.name)
-        }
     }
 
 }
@@ -102,20 +99,39 @@ class ArmourShopkeeper: Shopkeeper() {
 class ConsumableShopkeeper: Shopkeeper() {
 
     override var name = "Consumables Shopkeeper"
-    val shopkeeperItems = mutableListOf<Consumable>()
 
     init {
 
         for (consumable in listOfConsumables) {
-            shopkeeperItems.add(consumable)
+
+            this.theShop.add(Pair(consumable, consumable.getPrice()))
+
         }
 
     }
+}
 
-    override fun printShopkeeperGoods() {
-        for (consumable in shopkeeperItems) {
-            println(consumable.name)
+class GeneralShopkeeper: Shopkeeper() {
+
+    override var name = "Persistent General Shopkeeper"
+
+    init {
+        // persistent shopkeeper always sells random things. "shop" in commands
+        for (i in 0..4) {
+            when ((0..2).random()) {
+                0 -> {
+                    val consumable = Consumable().randomConsumable()
+                    this.theShop.add(Pair(consumable, consumable.getPrice()))
+                }
+                1 -> {
+                    val armour = Armour().randomArmour()
+                    this.theShop.add(Pair(armour, armour.getPrice()))
+                }
+                2 -> {
+                    val weapon = Weapon().randomWeapon()
+                    this.theShop.add(Pair(weapon, weapon.getPrice()))
+                }
+            }
         }
     }
-
 }

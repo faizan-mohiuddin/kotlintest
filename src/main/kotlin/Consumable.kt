@@ -18,6 +18,11 @@ open class Consumable: Item() {
 
     }
 
+    // gets overridden
+    open fun getPrice(): Float {
+        return 0F
+    }
+
 }
 
 // abstract class for a potion consumable, used as 'intermediate' class
@@ -62,6 +67,10 @@ class HealthPotion: Potion() {
             }
 
         }
+    }
+
+    override fun getPrice(): Float {
+        return (this.healingPower * 100).toFloat()
     }
 
     // use and remove the healing potion from inventory
@@ -116,6 +125,10 @@ class ExpPotion: Potion() {
 
     }
 
+    override fun getPrice(): Float {
+        return (this.experiencePower * 10).toFloat()
+    }
+
     // use and remove the exp potion from inventory
     override fun useConsumable(player: Player) {
 
@@ -128,3 +141,56 @@ class ExpPotion: Potion() {
     }
 }
 
+class GoldPotion: Potion() {
+
+    override val typeOfConsumable = "Gold Potion"
+
+    private var bonusGold = 0
+
+    init {
+
+        when (this.rarity) {
+
+            1 -> {
+                this.name = "Common Gold Potion"
+                this.bonusGold = 100
+            }
+
+            2 -> {
+                this.name = "Rare Gold Potion"
+                this.bonusGold = 200
+            }
+
+            3 -> {
+                this.name = "Epic Gold Potion"
+                this.bonusGold = 400
+            }
+
+            4 -> {
+                this.name = "Legendary Gold Potion"
+                this.bonusGold = 1000
+            }
+
+            else -> {
+                throw Exception("Error creating Gold Potion.")
+            }
+
+        }
+
+    }
+
+    override fun getPrice(): Float {
+        return (this.bonusGold * 1.2).toFloat()
+    }
+
+    // use and remove the exp potion from inventory
+    override fun useConsumable(player: Player) {
+
+        player.playerGold += this.bonusGold
+
+        println("You have used a ${this.name}. ${this.bonusGold} Gold gained.")
+
+        this.removeItemFromInventory(player)
+
+    }
+}

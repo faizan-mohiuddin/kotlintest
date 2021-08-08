@@ -17,6 +17,10 @@ open class Armour: Item() {
             else -> Plated()
         }
     }
+
+    fun getPrice(): Float {
+        return (this.defPower * 100).toFloat()
+    }
 }
 
 class Cloth: Armour() {
