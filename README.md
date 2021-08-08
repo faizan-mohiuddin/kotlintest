@@ -1,5 +1,3 @@
-# kotlintest
+# kotlintest (work in progress)
 
-text-based game written in kotlin
-
-work in progress
+terminal text-based game written in Kotlin to learn the language.
