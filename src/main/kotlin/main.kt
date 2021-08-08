@@ -11,6 +11,7 @@ fun main() {
     val playerNameInput = readLine().toString()
 
     val player1 = Player(playerNameInput)
+    val shopkeeper = WeaponShopkeeper() // TODO persistent general shopkeeper
 
     // TODO in-game commands and game commands
     // println("COMMANDS: ")
@@ -110,10 +111,24 @@ fun main() {
 
                 "shop" -> {
 
-                    val shopkeeper = Shopkeeper().randomShopkeeper()
+                    if (shopkeeper.hasItems()) {
 
-                    shopkeeper.printShopkeeperGoods()
+                        println("You visit the shopkeeper.")
 
+                        shopkeeper.printShopkeeperGoods()
+
+                        println("What itemID would you like to buy from the shopkeeper? (command 'exit' to leave)")
+                        val getItemID = readLine()
+
+                        if (getItemID?.toIntOrNull() == null) {
+                            println("Please enter a valid input")
+                        } else {
+                            shopkeeper.buyItemFromShopkeeper(player1, getItemID.toInt())
+                        }
+
+                    } else {
+                        println("The shopkeeper has no items to sell.")
+                    }
                 }
 
                 else -> {

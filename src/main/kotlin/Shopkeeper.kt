@@ -4,6 +4,8 @@ val listOfShopkeepers = mutableListOf<Shopkeeper>(WeaponShopkeeper(), ArmourShop
 open class Shopkeeper: Entity() {
 
     override var name = "The Shopkeeper"
+    // shop structure: mutableListOf<Array<Any> which looks like [[Weapon, Int], [Weapon, Int],....] where Int is cost
+    var theShop = mutableListOf<Pair<Item, Float>>()
 
     fun randomShopkeeper(): Shopkeeper {
 
@@ -16,6 +18,44 @@ open class Shopkeeper: Entity() {
 
     open fun printShopkeeperGoods() {
 
+        for (item in theShop) {
+            println("1x " + item.first.name + " (ID: " + item.first.itemID + ") costs " + item.second + " gold.")
+        }
+
+    }
+
+    open fun buyItemFromShopkeeper(player: Player, itemID: Int) {
+
+        var failedToFindItem = true
+
+        for (item in theShop) {
+
+            if (item.first.itemID == itemID) {
+
+                if (player.playerGold - item.second <= 0) {
+                    println("You dont have enough gold to buy this item.")
+                } else {
+                    player.playerGold -= item.second
+                    player.playerInventory.add(item.first)
+                    println("Item ${item.first.name} added to your inventory. (-${item.second} gold)")
+                    this.theShop.remove(item)
+                    failedToFindItem = false
+                }
+            }
+
+        }
+
+        if (failedToFindItem) {
+            println("Please enter a valid itemID.")
+        }
+
+
+    }
+
+    fun hasItems(): Boolean {
+
+        return theShop.size > 0
+
     }
 
 }
@@ -23,21 +63,17 @@ open class Shopkeeper: Entity() {
 class WeaponShopkeeper: Shopkeeper() {
 
     override var name = "Weapons Shopkeeper"
-    val shopkeeperItems = mutableListOf<Weapon>()
 
     init {
 
         for (weapon in listOfWeapons) {
-            shopkeeperItems.add(weapon)
+
+            this.theShop.add(Pair(weapon, weapon.getPrice()))
+
         }
 
     }
 
-    override fun printShopkeeperGoods() {
-        for (weapon in shopkeeperItems) {
-            println(weapon.name)
-        }
-    }
 
 
 }

@@ -7,7 +7,7 @@ class Player(override val name: String) : Entity() {
     var playerHP: Float = 100F
     var playerExperience: Float = 0F
     var playerLevel = 0 // TODO not private because player level will be used out of class eventually
-    var playerGold = 0
+    var playerGold = 0F
 
     // PLAYER EQUIPMENT
     var playerWeapon: Weapon? = null
@@ -20,6 +20,7 @@ class Player(override val name: String) : Entity() {
         println("HP: ${this.playerHP}")
         println("Weapon: ${this.playerWeapon?.name} (${this.playerWeapon?.attackPower} AP) Armour: ${this.playerArmour?.name} (${this.playerArmour?.defPower} DP) ")
         println("Level: ${this.playerLevel} (EXP: ${this.playerExperience})")
+        println("Gold: ${this.playerGold}")
     }
 
     fun equipWeapon(weapon: Weapon) {

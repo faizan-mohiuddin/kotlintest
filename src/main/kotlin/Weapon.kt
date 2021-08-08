@@ -18,6 +18,10 @@ open class Weapon : Item() {
         }
     }
 
+    fun getPrice(): Float {
+        return (this.attackPower * 100).toFloat()
+    }
+
 }
 
 class Fists: Weapon() {
@@ -30,7 +34,7 @@ class Fists: Weapon() {
 
 class Dagger: Weapon() {
 
-    override val rarity = 1
+    override val rarity = 2
     override var attackPower = (4..6).random()
     override var name = "Dagger"
 
@@ -38,7 +42,7 @@ class Dagger: Weapon() {
 
 class Sword: Weapon() {
 
-    override val rarity = 1
+    override val rarity = 3
     override var attackPower = (7..9).random()
     override var name = "Sword"
 
@@ -46,7 +50,7 @@ class Sword: Weapon() {
 
 class Greatsword: Weapon() {
 
-    override val rarity = 1
+    override val rarity = 4
     override var attackPower = (10..12).random()
     override var name = "Greatsword"
 
