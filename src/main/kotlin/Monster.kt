@@ -61,10 +61,10 @@ class Monster : Entity() {
 
     }
 
-    fun calculateMonsterOnDeathGold(): Int {
+    fun calculateMonsterOnDeathGold(): Float {
 
         val randomMultiplier = Random.nextFloat()
-        return ((this.monsterAttackPower * 10) / randomMultiplier).toInt()
+        return ((this.monsterAttackPower * 10) / randomMultiplier).toFloat()
 
     }
 }

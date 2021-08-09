@@ -5,9 +5,14 @@ class Player(override val name: String) : Entity() {
 
     // PLAYER NUMBERS
     var playerHP: Float = 100F
-    var playerExperience: Float = 0F
+    var playerExperience: Float = 1F
     var playerLevel = 0 // TODO not private because player level will be used out of class eventually
     var playerGold = 0F
+
+    // PLAYER MAGIC
+    var playerMana = 100
+    var playerSpells = mutableListOf<Spell>(Fireball(this)) // spells currently available to the player
+    var playerMagicExperience = 0
 
     // PLAYER EQUIPMENT
     var playerWeapon: Weapon? = null
@@ -200,8 +205,34 @@ class Player(override val name: String) : Entity() {
                     // player attacks monster
                     monster.monsterHP -= this.playerAttack(monster)
 
-                    // monster attacks player
-                    this.playerHP -= monster.monsterAttack(this)
+                }
+
+                "spell" -> {
+
+                    var hasInputSpell = false
+
+                    while (!hasInputSpell) {
+
+                        println("What spell would you like to cast? ('cancel' to stop)")
+                        println("Your mana: ${this.playerMana}.")
+                        println(this.playerSpells)
+
+                        val getUserSpellInput = readLine()?.toLowerCase()
+
+                        if (getUserSpellInput == "cancel") {
+                            hasInputSpell = true
+                        } else {
+                            for (spell in this.playerSpells) {
+                                if (getUserSpellInput == spell.spellName.toLowerCase()) {
+                                    monster.monsterHP -= spell.castSpell(this)
+                                    //println("dmg: ${spell.castSpell(this)}")
+                                    hasInputSpell = true
+                                } else {
+                                    println("This spell does not exist or you haven't learned it yet.")
+                                }
+                            }
+                        }
+                    }
 
                 }
 
@@ -258,6 +289,9 @@ class Player(override val name: String) : Entity() {
 
 
         }
+
+        // monster attacks player
+        this.playerHP -= monster.monsterAttack(this)
 
         // TODO add rewards when player wins
         if (this.playerHP <= 0) {
