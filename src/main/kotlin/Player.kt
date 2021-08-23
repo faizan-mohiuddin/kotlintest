@@ -11,7 +11,7 @@ class Player(override val name: String) : Entity() {
 
     // PLAYER MAGIC
     var playerMana = 100
-    var playerSpells = mutableListOf<Spell>(Fireball(this)) // spells currently available to the player
+    var playerSpells = mutableListOf<Spell>(Fireball(), InstantHeal()) // spells currently available to the player
     var playerMagicExperience = 0
 
     // PLAYER EQUIPMENT

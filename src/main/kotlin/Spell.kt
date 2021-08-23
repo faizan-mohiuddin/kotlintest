@@ -25,7 +25,7 @@ open class InstantSpell: Spell() {
 
 }
 
-    class Fireball(player: Player): InstantSpell() {
+    class Fireball(): InstantSpell() {
 
         override val spellName = "Fireball"
         override val spellCost = 20
@@ -61,7 +61,42 @@ open class InstantSpell: Spell() {
 
     }
 
-    class InstantHeal(player: Player): InstantSpell() {
+    class InstantHeal(): InstantSpell() {
+
+        override val spellName = "Instant Heal"
+        override val spellCost = 20
+
+        override fun castSpell(player: Player): Float {
+
+            if (canPlayerCastSpell(player)) {
+
+                println("You casted ${this.spellName}! (-${this.spellCost}")
+
+                player.playerMagicExperience += 20
+                player.playerMana -= this.spellCost
+                var healValue = 0F
+
+                healValue = if (player.playerWeapon != null) {
+
+                    val damageMultiplier = ((player.playerWeapon!!.attackPower / 2) + (player.playerMagicExperience / 100))
+
+                    (10 * (damageMultiplier)).toFloat()
+
+                } else {
+                    (10 * (player.playerMagicExperience / 100)).toFloat()
+                }
+
+                player.playerHP += healValue
+
+            } else {
+
+                println("You do not have enough Mana to cast ${this.spellName}!")
+
+            }
+
+            return 1F // placeholder return
+
+        }
 
     }
 

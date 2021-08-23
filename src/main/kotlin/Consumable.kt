@@ -194,3 +194,58 @@ class GoldPotion: Potion() {
 
     }
 }
+
+class WeaponEnhancePotion: Potion() {
+
+    override val typeOfConsumable = "Weapon Enhancing Potion"
+
+    private var bonusAttackPower = 0
+
+
+    init {
+
+        when (this.rarity) {
+
+            1 -> {
+                this.name = "Common Weapon Potion"
+                this.bonusAttackPower = 1
+            }
+
+            2 -> {
+                this.name = "Rare Weapon Potion"
+                this.bonusAttackPower = 2
+            }
+
+            3 -> {
+                this.name = "Epic Weapon Potion"
+                this.bonusAttackPower = 3
+            }
+
+            4 -> {
+                this.name = "Legendary Weapon Potion"
+                this.bonusAttackPower = 5
+            }
+
+            else -> {
+                throw Exception("Error creating Weapon Enhancing Potion.")
+            }
+
+        }
+    }
+
+    override fun getPrice(): Float {
+        return (this.bonusAttackPower * 2000).toFloat()
+    }
+
+    // use and remove the exp potion from inventory
+    override fun useConsumable(player: Player) {
+
+        player.playerWeapon!!.attackPower += this.bonusAttackPower
+
+        println("You have used a ${this.name}. ${this.bonusAttackPower} AP gained on weapons ${player.playerWeapon!!.name}.")
+
+        this.removeItemFromInventory(player)
+
+    }
+
+}
